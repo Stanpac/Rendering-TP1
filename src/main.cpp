@@ -36,4 +36,5 @@ int main()
 
         shader.bind(); 
         rectangle_mesh.draw(); 
+    }
 }
