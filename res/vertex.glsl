@@ -7,9 +7,8 @@ uniform float Time;
 
 void main()
 {
-
-    gl_Position = vec4(in_position.x / aspect_ratio , in_position.y , 0., 1.);
-    gl_Position.xy += vec2(Time / 10 , 0.);
+    gl_Position = vec4(in_position.x / aspect_ratio , in_position.y, 0., 1.);
+    gl_Position.xy += vec2(sin(Time)/ aspect_ratio, cos(Time));
 }
 
 
