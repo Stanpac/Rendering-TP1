@@ -13,11 +13,13 @@ int main()
                 -0.5f, -0.5f, // Position2D du 1er sommet
                 +0.5f, -0.5f, // Position2D du 2ème sommet
                 +0.5f, +0.5f, // Position2D du 3ème sommet
-                +0.5f, +0.5f, // Position2D du 4ème sommet
-                -0.5f, -0.5f, // Position2D du 5ème sommet
-                -0.5f, +0.5f  // Position2D du 6ème sommet
+                -0.5f, +0.5f  // Position2D du 4ème sommet
             },
         }},
+        .index_buffer   = {
+            0, 1, 2, // Indices du premier triangle : on utilise le 1er, 2ème et 3ème sommet
+            0, 2, 3  // Indices du deuxième triangle : on utilise le 1er, 3ème et 4ème sommet
+        },
     }};
 
 
