@@ -2,8 +2,8 @@
 
 layout(location = 0) in vec2 in_position;
 
-uniform vec2 nom_de_votre_variable_uniforme; // Vous pouvez mettre le type que vous voulez, et le nom que vous voulez
+uniform float aspect_ratio; 
 void main()
 {
-    gl_Position = vec4(in_position + 0.4f, 0., 1.);
+    gl_Position = vec4(in_position .x / aspect_ratio, in_position.y , 0., 1.);
 }
