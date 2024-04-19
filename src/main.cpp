@@ -36,6 +36,7 @@ int main()
 
         shader.bind(); 
         shader.set_uniform("aspect_ratio", glm::float32{gl::framebuffer_aspect_ratio()});
+         shader.set_uniform("Time", glm::float32{gl::time_in_seconds()});
         rectangle_mesh.draw(); 
     }
 }
