@@ -19,12 +19,12 @@ int main()
 
     auto const rectangle_mesh = gl::Mesh{{
         .vertex_buffers = {{
-            .layout = {gl::VertexAttribute::Position2D{0}},
+            .layout = {gl::VertexAttribute::Position2D{0}, gl::VertexAttribute::UV{1}},
             .data   = {
-                -0.5f, -0.5f, // Position2D du 1er sommet
-                +0.5f, -0.5f, // Position2D du 2ème sommet
-                +0.5f, +0.5f, // Position2D du 3ème sommet
-                -0.5f, +0.5f  // Position2D du 4ème sommet
+                -0.5f, -0.5f, 0., 0.,
+                +0.5f, -0.5f, 0., 1.,
+                +0.5f, +0.5f, 1., 1.,
+                -0.5f, +0.5f, 1., 0.,
             },
         }},
         .index_buffer   = {
@@ -36,16 +36,16 @@ int main()
 
     auto const cube_mesh = gl::Mesh{{
         .vertex_buffers = {{
-            .layout = {gl::VertexAttribute::Position3D{0}},
+            .layout = {gl::VertexAttribute::Position3D{0}, gl::VertexAttribute::UV{1}},
             .data   = {
-                -0.5f, -0.5f, -0.5f, // Position2D du 1er sommet
-                -0.5f, -0.5f, +0.5f, // Position2D du 2ème sommet
-                -0.5f, +0.5f, -0.5f, // Position2D du 3ème sommet
-                -0.5f, +0.5f, +0.5f, // Position2D du 4ème sommet
-                +0.5f, -0.5f, -0.5f, // Position2D du 5ème sommet
-                +0.5f, -0.5f, +0.5f, // Position2D du 6ème sommet
-                +0.5f, +0.5f, -0.5f, // Position2D du 7ème sommet
-                +0.5f, +0.5f, +0.5f, // Position2D du 8ème sommet
+                -0.5f, -0.5f, -0.5f, 
+                -0.5f, -0.5f, +0.5f, 
+                -0.5f, +0.5f, -0.5f, 
+                -0.5f, +0.5f, +0.5f, 
+                +0.5f, -0.5f, -0.5f, 
+                +0.5f, -0.5f, +0.5f, 
+                +0.5f, +0.5f, -0.5f, 
+                +0.5f, +0.5f, +0.5f, 
             },
         }},
 
@@ -89,8 +89,9 @@ int main()
         shader.set_uniform("aspect_ratio", glm::float32{gl::framebuffer_aspect_ratio()});
         shader.set_uniform("Time", glm::float32{gl::time_in_seconds()});
         shader.set_uniform("view_projection_matrix", view_projection_matrix);
-        //rectangle_mesh.draw(); 
 
-        cube_mesh.draw();
+        rectangle_mesh.draw(); 
+
+        //cube_mesh.draw();
     }
 }
