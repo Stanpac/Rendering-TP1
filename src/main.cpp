@@ -1,11 +1,13 @@
 #include "opengl-framework/opengl-framework.hpp" // Inclue la librairie qui va nous servir à faire du rendu
+#include "glm/ext/matrix_clip_space.hpp"
 
 int main()
 {
     // Initialisation
     gl::init("TPs de Rendering"); // On crée une fenêtre et on choisit son nom
     gl::maximize_window(); // On peut la maximiser si on veut
-
+    auto camera = gl::Camera{};
+    gl::set_events_callbacks({camera.events_callbacks()});
     
 
     auto const shader = gl::Shader{{
@@ -66,5 +68,6 @@ int main()
 
         transparentShader.bind();
         rectangle_mesh_transparent.draw();
+        glm::mat4 const projection_matrix = glm::infinitePerspective(1.f /*field of view in radians*/, gl::framebuffer_aspect_ratio() /*aspect ratio*/, 0.001f /*near plane*/);
     }
 }
