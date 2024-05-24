@@ -78,15 +78,15 @@ int main()
         glm::mat4 const view_matrix = camera.view_matrix();
         glm::mat4 const projection_matrix = glm::infinitePerspective(glm::radians(45.f) /*field of view in radians*/, gl::framebuffer_aspect_ratio() /*aspect ratio*/, 0.001f /*near plane*/);
         glm::mat4 const view_projection_matrix = projection_matrix * view_matrix;
-        glm::mat4 const rotation = glm::rotate(glm::mat4{1.f}, gl::time_in_seconds() /*angle de la rotation*/, glm::vec3{0.f, 0.f, 1.f} /* axe autour duquel on tourne */);
-        glm::mat4 const translation = glm::translate(glm::mat4{1.f}, glm::vec3{0.f, 1.f, 0.f} /* déplacement */);
-        glm::mat4 const model_matrix = rotation * translation;
-        glm::mat4 const model_view_projection_matrix = view_projection_matrix * model_matrix;
+        //glm::mat4 const rotation = glm::rotate(glm::mat4{1.f}, gl::time_in_seconds() /*angle de la rotation*/, glm::vec3{0.f, 0.f, 1.f} /* axe autour duquel on tourne */);
+        //glm::mat4 const translation = glm::translate(glm::mat4{1.f}, glm::vec3{0.f, 1.f, 0.f} /* déplacement */);
+        //glm::mat4 const model_matrix = rotation * translation;
+        //glm::mat4 const model_view_projection_matrix = view_projection_matrix * model_matrix;
         
         shader.bind(); 
         shader.set_uniform("aspect_ratio", glm::float32{gl::framebuffer_aspect_ratio()});
         shader.set_uniform("Time", glm::float32{gl::time_in_seconds()});
-        shader.set_uniform("view_projection_matrix", model_view_projection_matrix);
+        shader.set_uniform("view_projection_matrix", view_projection_matrix);
         //rectangle_mesh.draw(); 
 
         cube_mesh.draw();

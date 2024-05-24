@@ -6,8 +6,11 @@ uniform float aspect_ratio;
 uniform float Time; 
 uniform mat4 view_projection_matrix;
 
+out vec3 vertex_position;
+
 void main()
 {
+    vertex_position = in_position;
     gl_Position = vec4(in_position.x / aspect_ratio , in_position.y, 0., 1.);
     gl_Position = view_projection_matrix * vec4(in_position, 1.);
 }
