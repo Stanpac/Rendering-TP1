@@ -9,6 +9,7 @@ int main()
     gl::maximize_window(); // On peut la maximiser si on veut
     auto camera = gl::Camera{};
     gl::set_events_callbacks({camera.events_callbacks()});
+    glEnable(GL_DEPTH_TEST);
     
 
     auto const shader = gl::Shader{{
@@ -74,6 +75,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT); // Exécute concrètement l'action d'appliquer sur tout l'écran la couleur choisie au-dessus
         glEnable(GL_BLEND);
         glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA, GL_ONE); // On peut configurer l'équation qui mélange deux couleurs, comme pour faire différents blend mode dans Photoshop. Cette équation-ci donne le blending "normal" entre pixels transparents.
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Vient remplacer glClear(GL_COLOR_BUFFER_BIT);
 
         glm::mat4 const view_matrix = camera.view_matrix();
         glm::mat4 const projection_matrix = glm::infinitePerspective(glm::radians(45.f) /*field of view in radians*/, gl::framebuffer_aspect_ratio() /*aspect ratio*/, 0.001f /*near plane*/);
