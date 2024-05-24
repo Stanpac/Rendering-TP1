@@ -1,5 +1,6 @@
 #include "opengl-framework/opengl-framework.hpp" // Inclue la librairie qui va nous servir à faire du rendu
 #include "glm/ext/matrix_clip_space.hpp"
+#include "glm/ext/matrix_transform.hpp"
 
 int main()
 {
@@ -62,17 +63,20 @@ int main()
         glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA, GL_ONE); // On peut configurer l'équation qui mélange deux couleurs, comme pour faire différents blend mode dans Photoshop. Cette équation-ci donne le blending "normal" entre pixels transparents.
 
         glm::mat4 const view_matrix = camera.view_matrix();
-        glm::mat4 const projection_matrix = glm::infinitePerspective(glm::radians(45.f) /*field of view in radians*/, gl::framebuffer_aspect_ratio() /*aspect ratio*/, 1.f /*near plane*/);
+        glm::mat4 const projection_matrix = glm::infinitePerspective(glm::radians(45.f) /*field of view in radians*/, gl::framebuffer_aspect_ratio() /*aspect ratio*/, 0.001f /*near plane*/);
         glm::mat4 const view_projection_matrix = projection_matrix * view_matrix;
+        glm::mat4 const rotation = glm::rotate(glm::mat4{1.f}, gl::time_in_seconds() /*angle de la rotation*/, glm::vec3{0.f, 0.f, 1.f} /* axe autour duquel on tourne */);
+        glm::mat4 const translation = glm::translate(glm::mat4{1.f}, glm::vec3{0.f, 1.f, 0.f} /* déplacement */);
+        glm::mat4 const model_matrix = rotation * translation;
+        glm::mat4 const model_view_projection_matrix = view_projection_matrix * model_matrix;
         
         shader.bind(); 
         shader.set_uniform("aspect_ratio", glm::float32{gl::framebuffer_aspect_ratio()});
         shader.set_uniform("Time", glm::float32{gl::time_in_seconds()});
-        shader.set_uniform("view_projection_matrix", view_projection_matrix);
+        shader.set_uniform("view_projection_matrix", model_view_projection_matrix);
         rectangle_mesh.draw(); 
 
         //transparentShader.bind();
         rectangle_mesh_transparent.draw();
-
     }
 }
