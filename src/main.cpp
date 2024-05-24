@@ -15,10 +15,10 @@ int main()
         .fragment = gl::ShaderSource::File{"res/fragment.glsl"},
     }};
 
-    auto const transparentShader = gl::Shader{{
+    /*auto const transparentShader = gl::Shader{{
         .vertex   = gl::ShaderSource::File{"res/vertex2.glsl"},
         .fragment = gl::ShaderSource::File{"res/fragment2.glsl"},
-    }};
+    }};*/
 
     auto const rectangle_mesh = gl::Mesh{{
         .vertex_buffers = {{
@@ -56,18 +56,23 @@ int main()
     while (gl::window_is_open())
     {
         // Rendu à chaque frame
-        glClearColor(0.f, 1.f, 0.f, 1.f); // Choisis la couleur à utiliser. Les paramètres sont R, G, B, A avec des valeurs qui vont de 0 à 1
-        //glClear(GL_COLOR_BUFFER_BIT); // Exécute concrètement l'action d'appliquer sur tout l'écran la couleur choisie au-dessus
+        glClearColor(0.f, 0.f, 1.f, 1.f); // Choisis la couleur à utiliser. Les paramètres sont R, G, B, A avec des valeurs qui vont de 0 à 1
+        glClear(GL_COLOR_BUFFER_BIT); // Exécute concrètement l'action d'appliquer sur tout l'écran la couleur choisie au-dessus
         glEnable(GL_BLEND);
         glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA, GL_ONE); // On peut configurer l'équation qui mélange deux couleurs, comme pour faire différents blend mode dans Photoshop. Cette équation-ci donne le blending "normal" entre pixels transparents.
 
+        glm::mat4 const view_matrix = camera.view_matrix();
+        glm::mat4 const projection_matrix = glm::infinitePerspective(1.f /*field of view in radians*/, gl::framebuffer_aspect_ratio() /*aspect ratio*/, 0.001f /*near plane*/);
+        glm::mat4 const view_projection_matrix = projection_matrix * view_matrix;
+        
         shader.bind(); 
         shader.set_uniform("aspect_ratio", glm::float32{gl::framebuffer_aspect_ratio()});
         shader.set_uniform("Time", glm::float32{gl::time_in_seconds()});
+        shader.set_uniform("view_projection_matrix", view_projection_matrix);
         rectangle_mesh.draw(); 
 
-        transparentShader.bind();
+        //transparentShader.bind();
         rectangle_mesh_transparent.draw();
-        glm::mat4 const projection_matrix = glm::infinitePerspective(1.f /*field of view in radians*/, gl::framebuffer_aspect_ratio() /*aspect ratio*/, 0.001f /*near plane*/);
+
     }
 }
