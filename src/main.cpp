@@ -16,11 +16,6 @@ int main()
         .fragment = gl::ShaderSource::File{"res/fragment.glsl"},
     }};
 
-    /*auto const transparentShader = gl::Shader{{
-        .vertex   = gl::ShaderSource::File{"res/vertex2.glsl"},
-        .fragment = gl::ShaderSource::File{"res/fragment2.glsl"},
-    }};*/
-
     auto const rectangle_mesh = gl::Mesh{{
         .vertex_buffers = {{
             .layout = {gl::VertexAttribute::Position2D{0}},
@@ -37,21 +32,39 @@ int main()
         },
     }};
 
-    auto const rectangle_mesh_transparent = gl::Mesh{{
+
+    auto const cube_mesh = gl::Mesh{{
         .vertex_buffers = {{
-            .layout = {gl::VertexAttribute::Position2D{0}},
+            .layout = {gl::VertexAttribute::Position3D{0}},
             .data   = {
-                -1.f, -1.f, // Position2D du 1er sommet
-                +1.f, -1.f, // Position2D du 2ème sommet
-                +1.f, +1.f, // Position2D du 3ème sommet
-                -1.f, +1.f  // Position2D du 4ème sommet
+                -0.5f, -0.5f, -0.5f, // Position2D du 1er sommet
+                -0.5f, -0.5f, +0.5f, // Position2D du 2ème sommet
+                -0.5f, +0.5f, -0.5f, // Position2D du 3ème sommet
+                -0.5f, +0.5f, +0.5f, // Position2D du 4ème sommet
+                +0.5f, -0.5f, -0.5f, // Position2D du 5ème sommet
+                +0.5f, -0.5f, +0.5f, // Position2D du 6ème sommet
+                +0.5f, +0.5f, -0.5f, // Position2D du 7ème sommet
+                +0.5f, +0.5f, +0.5f, // Position2D du 8ème sommet
             },
         }},
+
         .index_buffer   = {
-            0, 1, 2, // Indices du premier triangle : on utilise le 1er, 2ème et 3ème sommet
-            0, 2, 3  // Indices du deuxième triangle : on utilise le 1er, 3ème et 4ème sommet
+            0, 1, 2, 
+            1, 2, 3,
+            0, 4, 2,
+            4, 2, 6,
+            2, 6, 3,
+            3, 6, 7,
+            0, 1, 4,
+            1, 4, 5,
+            1, 3, 5,
+            3, 5, 7,
+            6, 4, 5,
+            5, 6, 7,
         },
     }};
+
+    
 
 
     while (gl::window_is_open())
@@ -74,9 +87,8 @@ int main()
         shader.set_uniform("aspect_ratio", glm::float32{gl::framebuffer_aspect_ratio()});
         shader.set_uniform("Time", glm::float32{gl::time_in_seconds()});
         shader.set_uniform("view_projection_matrix", model_view_projection_matrix);
-        rectangle_mesh.draw(); 
+        //rectangle_mesh.draw(); 
 
-        //transparentShader.bind();
-        rectangle_mesh_transparent.draw();
+        cube_mesh.draw();
     }
 }
